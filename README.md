@@ -1,5 +1,6 @@
 # ParticleDesignerViewer
 ======
+
 **Description**
 
 3D Particle Effects Loader & Renderer is an open-source project that leverages the powerful capabilities of [Three.js](https://github.com/mrdoob/three.js) and [Three.Proton.js](https://github.com/drawcall/three.proton) to load and render stunning 3D particle effects in the browser. This project aims to provide a seamless workflow for creating, editing, and visualizing particle effects directly within a web environment.
@@ -30,10 +31,11 @@ Contributions are welcome! If you have any ideas for improvements or encounter a
 
 
 # 3D粒子效果加载与渲染器
+======
 
-==&zwnj;**描述**&zwnj;==：
+**描述**
 
-3D粒子效果加载与渲染器是一个开源项目，它利用Three.js和Three.Proton.js的强大功能，在浏览器中加载并渲染精美的3D粒子效果。该项目旨在为创建、编辑和可视化粒子效果提供一个无缝的网页工作流程。
+3D粒子效果加载与渲染器是一个开源项目，它利用[Three.js](https://github.com/mrdoob/three.js)和[Three.Proton.js](https://github.com/drawcall/three.proton) 的强大功能，在浏览器中加载并渲染精美的3D粒子效果。该项目旨在为创建、编辑和可视化粒子效果提供一个无缝的网页工作流程。
 
 通过这个项目，用户可以导入由我们自定义的ParticleDesigner在线编辑器生成的JSON文件。该编辑器允许用户以直观的方式设计和自定义粒子效果，从简单的爆发到复杂的动画。一旦JSON文件被加载，粒子效果就会使用Three.js进行3D图形渲染，并使用Three.Proton.js进行粒子系统管理，在浏览器中实时呈现。
 
