@@ -15,7 +15,7 @@ export default class ParticleNode extends THREE.Object3D  {
             side: THREE.DoubleSide,
             depthWrite: false,
             depthTest: true,
-            blending: THREE.NormalBlending
+            blending: THREE.AdditiveBlending
         });
         this.defaultSprite = new THREE.Sprite(this.defaultMaterial);
 

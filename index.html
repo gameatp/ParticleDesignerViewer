@@ -45,15 +45,17 @@
                 scene.add(gridLines);
 
                 defaultParticleNode = new ParticleNode();
-                defaultParticleNode.loadFromUrl("./data/particle_data1.json");
+                defaultParticleNode.loadFromUrl("./data/particle_data.json");
                 scene.add(defaultParticleNode);
 
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
-				renderer.toneMapping = THREE.ACESFilmicToneMapping;
-				renderer.toneMappingExposure = 1;
+				renderer.outputColorSpace = THREE.LinearSRGBColorSpace; 
+				renderer.toneMapping = THREE.NoToneMapping; 
+				renderer.toneMappingExposure = 1.0;
+        
 				container.appendChild( renderer.domElement );
                 renderer.setAnimationLoop( render );
 
