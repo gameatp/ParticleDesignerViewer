@@ -1,0 +1,12 @@
+{
+    "name": "viewer",
+    "version": "1.0.0",
+    "description": "ParticleDesigner Viewer",
+    "main": "index.js",
+    "scripts": {
+       "dev": "http-server -p 8080"
+    },
+    "devDependencies": {
+        "http-server": "^14.1.1"
+    }
+}

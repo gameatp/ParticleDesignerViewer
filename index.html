@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>ParticleDesignerViewer</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="main.css">
+	</head>
+	<body>
+        <div id="info">
+			<a href="https://easyshow.xyz/ParticleDesigner/" target="_blank" rel="noopener">ParticleDesigner</a> - Viewer<br />
+		</div>
+
+		<script type="importmap">
+			{
+				"imports": {
+					"three": "./lib/three.module.js"
+				}
+			}
+		</script>
+
+		<script type="module">
+
+			import * as THREE from 'three';
+			import { OrbitControls } from './lib/OrbitControls.js';
+            import ParticleNode from "./ParticleNode.js"
+
+			let camera, scene, renderer, defaultParticleNode;
+
+            let clock = new THREE.Clock();
+			init();
+
+			function init() {
+
+				const container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 0.25, 300 );
+				camera.position.set(0, 2, 6 );
+
+				scene = new THREE.Scene();
+
+                
+                let gridLines = new THREE.GridHelper(20, 20, 0x111111, 0x444444);
+                scene.add(gridLines);
+
+                defaultParticleNode = new ParticleNode();
+                defaultParticleNode.loadFromUrl("./data/particle_data1.json");
+                scene.add(defaultParticleNode);
+
+
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.toneMapping = THREE.ACESFilmicToneMapping;
+				renderer.toneMappingExposure = 1;
+				container.appendChild( renderer.domElement );
+                renderer.setAnimationLoop( render );
+
+				const controls = new OrbitControls( camera, renderer.domElement );
+				controls.target.set( 0, 0, - 0.2 );
+				controls.update();
+
+				window.addEventListener( 'resize', onWindowResize );
+
+			}
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+				render();
+
+			}
+
+			//
+
+			function render() {
+                var delta = clock.getDelta();
+                defaultParticleNode.update(delta);
+				renderer.render( scene, camera );
+
+			}
+
+
+		</script>
+
+	</body>
+</html>
