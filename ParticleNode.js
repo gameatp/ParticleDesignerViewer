@@ -94,6 +94,18 @@ export default class ParticleNode extends THREE.Object3D  {
         this.updateAlphaAnimationStartAndEnd(json.alphaStart, json.alphaEnd);
         this.updateScaleAnimationStartAndEnd(json.scaleStart, json.scaleEnd);
         this.updateColorAnimation(json.startColor, json.endColor, json.isStartColorRandom, json.isEndColorRandom,  json.enableEndColor);
+        this.updateMapUrl(json.mapUrl);
+    }
+    updateMapUrl(url, succb) {
+        if (!url) return;
+        this.json.mapUrl = url;
+        this.textureLoader.load(url, (texture) => {
+            texture.src = url;
+            this.changeMap(texture);
+            if (succb) {
+                succb(texture);
+            }
+        });
     }
     updateColorAnimation(startColor, endColor, isStartColorRandom, isEndColorRandom, enableEndColor) {
         this.json.startColor = startColor;
