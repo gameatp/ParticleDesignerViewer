@@ -1,5 +1,6 @@
 import Proton from "./lib/three.proton.js"
 import * as THREE from 'three';
+let DEFAULT_TEXTUREURL  = "data/dot.png";
 export default class ParticleNode extends THREE.Object3D  {
     constructor(json) {
         super();
@@ -81,9 +82,9 @@ export default class ParticleNode extends THREE.Object3D  {
             this.initFromJson(jsonObj);
         });
     }
-    initFromJson(json) {
-        this.json = json;
+    initFromJson(json, succb) {
         this.particleContainer.position.fromArray(json.position);
+        this.json = json;
         this.updateRate(json.minEmitNumber, json.maxEmitNumber, json.minEmitTime, json.maxEmitTime);
         this.updateRadius(json.minRadius, json.maxRadius);
         this.updateLife(json.minLife, json.maxLife);
@@ -94,7 +95,27 @@ export default class ParticleNode extends THREE.Object3D  {
         this.updateAlphaAnimationStartAndEnd(json.alphaStart, json.alphaEnd);
         this.updateScaleAnimationStartAndEnd(json.scaleStart, json.scaleEnd);
         this.updateColorAnimation(json.startColor, json.endColor, json.isStartColorRandom, json.isEndColorRandom,  json.enableEndColor);
-        this.updateMapUrl(json.mapUrl);
+        this.updateMapUrl(json.mapUrl ? json.mapUrl : DEFAULT_TEXTUREURL, succb);
+        this.updateDrift(this.json.drift ? this.json.drift.force : [0,0,0], this.json.drift ? this.json.drift.interval : 0.03);
+    }
+    updateDrift(force, interval) {
+        this.json.drift = {};
+        this.json.drift.force = force;
+        this.json.drift.interval = interval;
+        let driftBehaviour = this.emitter.behaviours.find((behaviour) => {
+            return (behaviour instanceof Proton.RandomDrift)
+        });
+        if (force[0] == 0 && force[1] == 0 && force[2] == 0) {
+            if (driftBehaviour)
+            this.emitter.removeBehaviour(driftBehaviour);
+        } else {
+            if (!driftBehaviour) {
+                this.emitter.addBehaviour(new Proton.RandomDrift(force[0], force[1], force[2], interval));
+            } else {
+                driftBehaviour.reset(force[0], force[1], force[2], interval);
+            }
+        }
+
     }
     updateMapUrl(url, succb) {
         if (!url) return;
@@ -105,6 +126,7 @@ export default class ParticleNode extends THREE.Object3D  {
             if (succb) {
                 succb(texture);
             }
+            this.dispatchEvent({type: "loadSuc"})
         });
     }
     updateColorAnimation(startColor, endColor, isStartColorRandom, isEndColorRandom, enableEndColor) {
