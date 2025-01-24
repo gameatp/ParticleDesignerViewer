@@ -43,6 +43,21 @@
                 
                 let gridLines = new THREE.GridHelper(20, 20, 0x111111, 0x444444);
                 scene.add(gridLines);
+				const geometry = new THREE.BufferGeometry();
+				let position = [];
+				for (var i = 0; i < 12000; i++) {
+					let x = THREE.MathUtils.randFloatSpread(1200);
+					let y = THREE.MathUtils.randFloatSpread(1200);
+					let z = THREE.MathUtils.randFloatSpread(1200);
+					if (Math.sqrt(x * x + y * y + z * z) > 200)
+					position.push(x, y , z);
+				}
+				geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( position, 3 ) );
+				var particles = new THREE.Points(geometry, new THREE.PointsMaterial({
+					color: 0x888888,
+					size: 1.0
+				}));
+				gridLines.add(particles); 
 
                 defaultParticleNode = new ParticleNode();
                 defaultParticleNode.loadFromUrl("./data/particle_data1.json");
